@@ -1,0 +1,40 @@
+{
+  "name": "mlopez/supergiros",
+  "description": "",
+  "keywords": [
+    "PHP",
+    "Supergiros",
+    "Loteria",
+    "Barranquilla"
+  ],
+  "authors": [
+    {
+      "name": "Miguel Angel Lopez Ariza",
+      "email": "lopezarizamiguel@gmail.com"
+    }
+  ],
+  "homepage": "https://github.com/mlopez/supergiros",
+  "require": {
+    "php": ">=7.1.3",
+    "ext-curl": "*",
+    "ext-dom": "*"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^9.5.20"
+  },
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Mlopez\\Supergiros\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Mlopez\\Supergiros\\Tests\\": "tests/"
+    }
+  },
+  "scripts": {
+    "test": " vendor/bin/phpunit tests ",
+    "coverage": "php -dxdebug.mode=coverage vendor/bin/phpunit --coverage-clover='reports/coverage/coverage.xml' --coverage-html='reports/coverage'"
+  }
+}
