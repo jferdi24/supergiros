@@ -14,7 +14,7 @@ class Supergiros
     {
         $html = $this->getResponse($date);
         $data = $this->tarnsform($html);
-        return json_encode($data) . PHP_EOL;
+        return $data;
     }
 
     private function getResponse($date)
