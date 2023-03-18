@@ -23,10 +23,10 @@ contributions you make are greatly appreciated.
 4. Push to the Branch (git push origin feature/AmazingFeature)
 5. Open a Pull Request
 
-## Contact
+## Credits
 
-If you discover any security-related issues, please email lopezarizamiguel@gmail.com instead of using the issue tracker.
+- [Miguel Lopez Ariza](https://github.com/parrotsoft)
 
 ## License
 
-The Supergiros is an open source package licensed under the [MIT license](https://opensource.org/licenses/MIT).
+The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
