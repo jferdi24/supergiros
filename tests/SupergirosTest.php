@@ -3,15 +3,16 @@
 namespace Mlopez\Supergiros\Tests;
 
 use Mlopez\Supergiros\Supergiros;
+use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\TestCase;
 
 class SupergirosTest extends TestCase
 {
-
     /**
      * @test
+     * @throws Exception
      */
-    public function it_can_test_instance_class()
+    public function it_can_test_instance_class(): void
     {
         $data = [
             [
@@ -25,11 +26,9 @@ class SupergirosTest extends TestCase
         $stub = $this->createMock(Supergiros::class);
         $stub->method('call')
             ->withAnyParameters()
-            ->willReturn(json_encode($data));
+            ->willReturn($data);
 
 
-        $this->assertEquals(json_encode($data), $stub->call(2022 - 05 - 13));
-
+        $this->assertEquals($data, $stub->call('2022-05-13'));
     }
-
 }

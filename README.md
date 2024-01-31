@@ -4,7 +4,7 @@ This package allows you to obtain the result of the lotteries managed by the Sup
 
 ## Installation
 
-> Require PHP >= 7.1.3
+> Require PHP >= 8.3
 
 ``` composer require mlopez/supergiros```
 

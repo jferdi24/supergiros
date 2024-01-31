@@ -18,12 +18,10 @@
   ],
   "homepage": "https://github.com/parrotsoft/supergiros",
   "require": {
-    "php": ">=7.1.3",
+    "php": "^8.3",
     "ext-curl": "*",
-    "ext-dom": "*"
-  },
-  "require-dev": {
-    "phpunit/phpunit": "^9.5.20"
+    "ext-dom": "*",
+    "guzzlehttp/guzzle": "^7.8"
   },
   "license": "MIT",
   "autoload": {
@@ -38,6 +36,12 @@
   },
   "scripts": {
     "test": "vendor/bin/phpunit tests",
+    "phpcs": "vendor/bin/php-cs-fixer fix src && vendor/bin/php-cs-fixer fix tests",
+    "phpcs-check": "vendor/bin/php-cs-fixer check src && vendor/bin/php-cs-fixer check tests",
     "coverage": "php -dxdebug.mode=coverage vendor/bin/phpunit --coverage-clover='reports/coverage/coverage.xml' --coverage-html='reports/coverage'"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^10.5",
+    "friendsofphp/php-cs-fixer": "^3.48"
   }
 }
