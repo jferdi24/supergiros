@@ -19,6 +19,36 @@ class Supergiros
 
     private function getResponse($date)
     {
+        $url = 'https://supergirosatlantico.com.co/tabla-resultados/';
+
+        $paramenters = [
+            'nombre' => '',
+            'fecha' => $date,
+            'enviar' => 'consultar'
+        ];
+
+        $defaults = [
+            CURLOPT_POST => true,
+            CURLOPT_POSTFIELDS => $paramenters,
+            CURLOPT_RETURNTRANSFER => true,
+        ];
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_PROXY, 'http://77d5838c880c44e8e90480f1e40f5b801c64ccb8:@proxy.zenrows.com:8001');
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt_array($ch, $defaults);
+        $response = curl_exec($ch);
+        curl_close($ch);
+        return $response;
+    }
+
+    private function getResponseOld($date)
+    {
         $paramenters = [
             'nombre' => '',
             'fecha' => $date,
@@ -29,7 +59,10 @@ class Supergiros
             CURLOPT_URL => 'https://supergirosatlantico.com.co/tabla-resultados/',
             CURLOPT_POST => true,
             CURLOPT_POSTFIELDS => $paramenters,
-            CURLOPT_RETURNTRANSFER => true
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_HTTPHEADER => [
+                'CF-Connecting-IP: ' . $_SERVER['REMOTE_ADDR']
+            ]
         ];
 
         $ch = curl_init();
