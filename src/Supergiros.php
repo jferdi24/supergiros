@@ -28,6 +28,8 @@ class Supergiros
 
         $client = new Client([
             'base_uri' => 'https://supergirosatlantico.com.co/tabla-resultados',
+            'proxy' => 'http://77d5838c880c44e8e90480f1e40f5b801c64ccb8:@proxy.zenrows.com:8001',
+            'verify' => false,
         ]);
 
         return $client->post('', $paramenters)->getBody()->getContents();
