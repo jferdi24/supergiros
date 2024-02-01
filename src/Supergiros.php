@@ -13,9 +13,8 @@ class Supergiros
     public function call(string $date): array
     {
         $html = $this->getResponse($date);
-        $data = $this->transform($html);
 
-        return $data;
+        return $this->transform($html);
     }
 
     private function getResponse($date): string
