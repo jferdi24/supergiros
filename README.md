@@ -26,7 +26,7 @@ contributions you make are greatly appreciated.
 ## Credits
 
 - [Miguel Lopez Ariza](https://github.com/parrotsoft)
-
+- [Diego Lozano](https://github.com/jferdi24)
 ## License
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
