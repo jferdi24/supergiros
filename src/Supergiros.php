@@ -13,6 +13,7 @@ class Supergiros
     public function call($date)
     {
         $html = $this->getResponse($date);
+
         $data = $this->tarnsform($html);
         return $data;
     }
@@ -20,27 +21,27 @@ class Supergiros
     private function getResponse($date)
     {
         $url = 'https://supergirosatlantico.com.co/tabla-resultados/';
-
-        $paramenters = [
+        $parameters = [
             'nombre' => '',
             'fecha' => $date,
             'enviar' => 'consultar'
         ];
 
-        $defaults = [
-            CURLOPT_POST => true,
-            CURLOPT_POSTFIELDS => $paramenters,
-            CURLOPT_RETURNTRANSFER => true,
+        $headers = [
+            'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+            'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8'
         ];
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-        curl_setopt_array($ch, $defaults);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $parameters);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
         $response = curl_exec($ch);
         curl_close($ch);
         return $response;
