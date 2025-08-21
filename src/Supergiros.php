@@ -6,18 +6,48 @@ error_reporting(E_ERROR | E_PARSE);
 
 use DOMDocument;
 use DOMXPath;
-use GuzzleHttp\Client;
 
 class Supergiros
 {
-    public function call(string $date): array
+
+    public function call($date)
     {
         $html = $this->getResponse($date);
 
-        return $this->transform($html);
+        $data = $this->tarnsform($html);
+        return $data;
     }
 
-    private function getResponse($date): string
+    private function getResponse($date)
+    {
+        $url = 'https://supergirosatlantico.com.co/tabla-resultados/';
+        $parameters = [
+            'nombre' => '',
+            'fecha' => $date,
+            'enviar' => 'consultar'
+        ];
+
+        $headers = [
+            'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+            'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8'
+        ];
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $parameters);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+        $response = curl_exec($ch);
+        curl_close($ch);
+        return $response;
+    }
+
+    private function getResponseOld($date)
     {
         $paramenters = [
             'nombre' => '',
@@ -25,26 +55,35 @@ class Supergiros
             'enviar' => 'consultar'
         ];
 
-        $client = new Client([
-            'base_uri' => 'https://supergirosatlantico.com.co/tabla-resultados',
-            'proxy' => 'http://77d5838c880c44e8e90480f1e40f5b801c64ccb8:@proxy.zenrows.com:8001',
-            'verify' => false,
-        ]);
+        $defaults = [
+            CURLOPT_URL => 'https://supergirosatlantico.com.co/tabla-resultados/',
+            CURLOPT_POST => true,
+            CURLOPT_POSTFIELDS => $paramenters,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_HTTPHEADER => [
+                'CF-Connecting-IP: ' . $_SERVER['REMOTE_ADDR']
+            ]
+        ];
 
-        return $client->post('', $paramenters)->getBody()->getContents();
+        $ch = curl_init();
+        curl_setopt_array($ch, $defaults);
+        $response = curl_exec($ch);
+
+        curl_close($ch);
+        return $response;
     }
 
-    private function transform($htmlContent): array
+    private function tarnsform($htmlContent)
     {
-        $domDocument = new DOMDocument();
-        $domDocument->loadHTML($htmlContent);
-        $dom = new DOMXPath($domDocument);
-        $nodes = $dom->query("//*[contains(@class, 'colum')]");
+        $domdocument = new DOMDocument();
+        $domdocument->loadHTML($htmlContent);
+        $dom = new DOMXPath($domdocument);
+        $spaner = $dom->query("//*[contains(@class, 'colum')]");
 
         $result = [];
 
-        for ($i = 0; $i < $nodes->length - 1; $i++) {
-            $result[] = $nodes->item($i)->textContent;
+        for ($i = 0; $i < $spaner->length - 1; $i++) {
+            $result[] = $spaner->item($i)->textContent;
         }
 
         $format = array_chunk($result, 4);
@@ -58,8 +97,8 @@ class Supergiros
                 'serie' => trim($row[3]),
             ];
         }
-
         return $response;
     }
 
 }
+
